@@ -26,6 +26,6 @@ Citation labels are static and were checked on 2026-10-10. Bootstrap Icons and M
 
 ## Loading and web fonts
 
-A small loading screen waits for content, the first background, and body fonts, with an eight-second escape for stalled connections. All backgrounds preload; the slideshow keeps its current photo until the next is ready. Reduced-motion preferences disable animation.
+A small loading screen waits for content, the first background, and body fonts, with a 0.9-second minimum introduction and an eight-second escape for stalled connections. All backgrounds preload; the slideshow keeps its current photo until the next is ready. Reduced-motion preferences disable animation.
 
 Active backgrounds use WebP. Body fonts use WOFF2 subsets covering Latin, punctuation, arrows and the current page text; full OFL originals remain for regeneration. When adding new Chinese text, regenerate both subsets with fontTools `pyftsubset`, using `contents/*.md` and `contents/config.yml` as the text corpus. Missing characters still use system fallback.

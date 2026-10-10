@@ -6,7 +6,7 @@ Downloaded and licensing pages checked 2026-10-10. Active backgrounds use optimi
 | --- | --- | --- | --- |
 | blue-mountains.webp | Blue mountains from above / Brady Bellini | 6000 × 4000 | CC0 1.0; originally published on Unsplash 2016-07-27, before its license change |
 | yellowstone-sunset.webp | Sunset over Yellowstone Lake / NPS, A. Falgoust | 6000 × 4000 | US federal government work, public domain in the United States; source marked Public Domain Mark |
-| seattle-sunrise.webp | Seattle Sunrise / Ethan Conley | 2048 × 1103 | CC0 1.0; replaces the forest background |
+| new-york-sunrise.webp | 53rd St Sunrise / ben o'bro | 5472 × 3648 original; 2560 × 1707 WebP | CC0 1.0; selected by the user after preview |
 
 ## Source and license pages
 
@@ -24,3 +24,6 @@ Previous background files are retained locally but are not in the active rotatio
 - Seattle Sunrise: https://commons.wikimedia.org/wiki/File:Seattle_Sunrise_(184031381).jpeg
 - Seattle original: https://upload.wikimedia.org/wikipedia/commons/a/a0/Seattle_Sunrise_%28184031381%29.jpeg
 - WebP encoding uses quality 85; no compositional or color edits.
+
+- New York sunrise: https://commons.wikimedia.org/wiki/File:53rd_St_Sunrise_(Unsplash).jpg
+- Original: https://upload.wikimedia.org/wikipedia/commons/1/10/53rd_St_Sunrise_%28Unsplash%29.jpg

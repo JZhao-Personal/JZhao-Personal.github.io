@@ -377,6 +377,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
     // Keep the page accessible even if a resource or network request stalls.
     const loadingTimeout = window.setTimeout(markSiteReady, 8000);
+    const minimumIntro = new Promise(resolve => window.setTimeout(resolve, 900));
     loadConfig()
         .then((yml) => {
             applyConfig(yml);
@@ -391,7 +392,7 @@ window.addEventListener('DOMContentLoaded', event => {
             const fonts = document.fonts
                 ? Promise.all([document.fonts.load('400 16px "LXGW 975 Yuan SC"'), document.fonts.load('700 16px "LXGW 975 Yuan SC"')])
                 : Promise.resolve();
-            return Promise.all([firstBackground, fonts, ...getConfiguredSections(yml).map(loadMarkdownSection)]);
+            return Promise.all([minimumIntro, firstBackground, fonts, ...getConfiguredSections(yml).map(loadMarkdownSection)]);
         })
         .then(() => typesetMath())
         .catch(error => console.log(error))

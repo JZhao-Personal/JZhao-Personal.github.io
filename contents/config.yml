@@ -3,7 +3,7 @@ top-section-bg-text: Jian Zhao&ensp;|&ensp;赵俭
 backgrounds:
   - static/assets/background/blue-mountains.webp
   - static/assets/background/yellowstone-sunset.webp
-  - static/assets/background/seattle-sunrise.webp
+  - static/assets/background/new-york-sunrise.webp
 background-interval-ms: 7000
 background-overlay: 0.52
 copyright-text: '&copy; Jian Zhao 2026.'
