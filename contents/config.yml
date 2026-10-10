@@ -1,28 +1,33 @@
-title: User Name's Homepage
-page-top-title: User Name
-top-section-bg-text: Computer Science
+title: Jian Zhao | 赵俭
+top-section-bg-text: Jian Zhao&ensp;|&ensp;赵俭
 backgrounds:
-  - static/assets/background/background_0.jpeg
-  - static/assets/background/background_1.jpeg
+  - static/assets/background/blue-mountains.jpg
+  - static/assets/background/yellowstone-sunset.jpg
+  - static/assets/background/foggy-foliage.jpg
 background-interval-ms: 7000
 background-overlay: 0.52
-copyright-text: '&copy; Sen Li 2023-2026. All Rights Reserved.'
+copyright-text: '&copy; Jian Zhao 2026.'
 github-link:
-  text: Github
-  href: https://github.com/senli1073
+  text: Template by Sen Li
+  href: https://github.com/senli1073/academic-homepage-template
 license-link:
-  text: License
-  href: https://github.com/senli1073/senli1073.github.io/blob/main/LICENSE
+  text: MIT License
+  href: https://github.com/senli1073/academic-homepage-template/blob/main/LICENSE
 sections:
   - id: home
     nav: HOME
-    title: User Name&ensp;|&ensp;姓名
-    href: '#page-top' # Default to '#<id>' if not specified
+    title: About
+    icon: bi-person-fill
+    href: '#page-top'
   - id: publications
     nav: PUBLICATIONS
-    title: PUBLICATIONS
+    title: Publications
     icon: bi-file-text-fill
   - id: awards
     nav: AWARDS
-    title: AWARDS
+    title: Awards
     icon: bi-award-fill
+  - id: misc
+    nav: MISC
+    title: Misc
+    icon: bi-music-note-beamed

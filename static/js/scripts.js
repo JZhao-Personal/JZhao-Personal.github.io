@@ -1,4 +1,3 @@
-
 const content_dir = 'contents/'
 const config_file = 'config.yml'
 
@@ -179,15 +178,18 @@ function normalizeBackgrounds(backgrounds) {
     return [];
 }
 
-function chooseInitialBackgroundIndex(backgroundCount) {
-    if (!Number.isFinite(backgroundCount) || backgroundCount <= 1) {
-        return 0;
+function shuffleBackgrounds(backgrounds, previousFirst) {
+    const order = [...backgrounds];
+    for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
     }
-
-    return Math.floor(Math.random() * backgroundCount);
+    if (order.length > 1 && order[0] === previousFirst) {
+        const j = 1 + Math.floor(Math.random() * (order.length - 1));
+        [order[0], order[j]] = [order[j], order[0]];
+    }
+    return order;
 }
-
-window.chooseInitialBackgroundIndex = chooseInitialBackgroundIndex;
 
 function initBackgroundSlideshow(yml) {
     const backgrounds = normalizeBackgrounds(yml.backgrounds);
@@ -204,9 +206,14 @@ function initBackgroundSlideshow(yml) {
     }
 
     let activeLayer = 0;
-    let activeBackground = chooseInitialBackgroundIndex(backgrounds.length);
+    const storageKey = 'jian-zhao-background-first';
+    let previousFirst;
+    try { previousFirst = window.localStorage.getItem(storageKey); } catch (_) { /* Storage may be disabled. */ }
+    let order = shuffleBackgrounds(backgrounds, previousFirst);
+    let activeBackground = 0;
+    try { window.localStorage.setItem(storageKey, order[0]); } catch (_) { /* Keep random selection without persistence. */ }
 
-    layers[activeLayer].style.backgroundImage = `url("${backgrounds[activeBackground]}")`;
+    layers[activeLayer].style.backgroundImage = `url("${order[activeBackground]}")`;
 
     if (backgrounds.length === 1 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         return;
@@ -214,9 +221,13 @@ function initBackgroundSlideshow(yml) {
 
     window.setInterval(() => {
         const nextLayer = activeLayer === 0 ? 1 : 0;
-        activeBackground = (activeBackground + 1) % backgrounds.length;
+        activeBackground++;
+        if (activeBackground === order.length) {
+            order = shuffleBackgrounds(backgrounds, order[order.length - 1]);
+            activeBackground = 0;
+        }
 
-        layers[nextLayer].style.backgroundImage = `url("${backgrounds[activeBackground]}")`;
+        layers[nextLayer].style.backgroundImage = `url("${order[activeBackground]}")`;
         layers[nextLayer].classList.add('top-section-bg-active');
         layers[activeLayer].classList.remove('top-section-bg-active');
         activeLayer = nextLayer;
@@ -266,7 +277,7 @@ function typesetMath() {
 }
 
 function loadConfig() {
-    return fetch(content_dir + config_file)
+    return fetch(content_dir + config_file, { cache: 'no-cache' })
         .then(response => response.text())
         .then(text => jsyaml.load(text) || {})
         .catch(error => {
@@ -309,7 +320,7 @@ function getConfiguredSections(yml) {
 }
 
 function loadMarkdownSection(name) {
-    return fetch(content_dir + name + '.md')
+    return fetch(content_dir + name + '.md', { cache: 'no-cache' })
         .then(response => response.text())
         .then(markdown => {
             const target = document.getElementById(name + '-md');
@@ -330,6 +341,23 @@ function markSiteReady() {
 }
 
 window.addEventListener('DOMContentLoaded', event => {
+    // Optional font comparison URLs; the main page defaults to LXGW 975 Yuan SC.
+    const fontParams = new URLSearchParams(window.location.search);
+    for (const [key, allowed] of Object.entries({
+        body: ['avenir', 'helvetica', 'system'],
+        heading: ['avenir', 'helvetica', 'palatino'],
+    })) {
+        const value = fontParams.get(key);
+        if (allowed.includes(value)) document.documentElement.dataset[key] = value;
+    }
+
+    const localFont = fontParams.get('font');
+    if (localFont) document.documentElement.style.setProperty('--bs-body-font-family', JSON.stringify(localFont) + ', sans-serif');
+    const weight = fontParams.get('weight');
+    if (['100', '200', '300', '400', '500', '600'].includes(weight)) {
+        document.documentElement.style.setProperty('--body-weight', weight);
+    }
+
     marked.use({ mangle: false, headerIds: false });
 
     loadConfig()

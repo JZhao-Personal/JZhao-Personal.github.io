@@ -1,3 +1,17 @@
 *.DS_Store
 
 .superpowers/
+
+# Local experiments and unused personal backgrounds
+font-preview.html
+static/js/font-preview.js
+static/assets/local-fonts.json
+tests/font-preview.test.js
+static/assets/background/campus-sunset.jpg
+static/assets/background/city-sunset.jpg
+static/assets/background/lake.jpg
+static/assets/institutions/qmul.png
+static/assets/institutions/iiis.png
+static/assets/institutions/shlab.webp
+static/assets/institutions/tsinghua-ee-brand.png
+static/assets/institutions/tsinghua-ee.jpg

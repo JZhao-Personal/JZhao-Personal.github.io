@@ -1,28 +1,129 @@
 @import "./styles.css";
 
+@font-face {
+    font-family: "LXGW 975 Yuan SC";
+    src: local("LXGW 975 Yuan SC"), url("../assets/fonts/LXGW975YuanSC-400W.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "LXGW 975 Yuan SC";
+    src: url("../assets/fonts/LXGW975YuanSC-700W.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 
 :root {
-    --h-title-color: #3948d2;
+    font-size: 90%;
+    --h-title-color: #453662;
+    --bs-body-color: #656d76;
+    --bs-body-font-family: "LXGW 975 Yuan SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --heading-font: "Avenir Next", Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --serif-font: Palatino, "Palatino Linotype", "Book Antiqua", serif;
+    --bs-body-font-weight: 300;
+    --body-weight: 300;
+    --bs-link-color: #3d6da6;
+    --bs-link-hover-color: #42658a;
     --top-section-overlay: 0.52;
-    --skeleton-base: #e4e7eb;
-    --skeleton-highlight: #f5f7fa;
+    --skeleton-base: #e6e8e8;
+    --skeleton-highlight: #f6f8fa;
+}
+
+/* Alternate previews use installed fonts; the default body font is bundled under OFL. */
+:root[data-body="helvetica"] {
+    --bs-body-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+:root[data-body="system"] {
+    --bs-body-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+:root[data-heading="helvetica"] {
+    --heading-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+:root[data-heading="palatino"] {
+    --heading-font: var(--serif-font);
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--serif-font);
+}
+.top-section h2.font-alt {
+    font-family: var(--heading-font) !important;
+}
+#sections small {
+    color: #656d76;
+}
+
+/* Colors sampled from local GitHub Light Default + user overrides; see PALETTE.md. */
+#sections strong { font-weight: 600; color: #453662; }
+#home-md > p:first-child strong, #publications-md .author-self { color: #8d74bb; }
+#sections header h2 { font-weight: 650; }
+#sections header h2 i { color: #ae96d8; margin-right: 1.1rem; }
+#home-md, #publications-md, #awards-md, #misc-md { padding-left: 3.4rem; }
+.profile-links { display: flex; flex-wrap: wrap; gap: 1.2rem 3rem; margin: .65rem 0 3.5rem; }
+.profile-links a { display: inline-flex; align-items: center; gap: .9rem; text-decoration: none; font-weight: 400; }
+.profile-links a:hover { color: #42658a; }
+.profile-links svg, .subsection-title svg { width: 1.5rem; height: 1.5rem; flex: none; color: #8d74bb; }
+#sections .subsection-title { position: relative; font-family: var(--heading-font); font-weight: 600; color: #453662; margin: 3.5rem 0 1.8rem; }
+.subsection-title svg { position: absolute; left: -3.4rem; top: .2rem; }
+.timeline-entry { position: relative; padding-left: 8rem; min-height: 4rem; margin: 0 0 2.2rem; }
+.timeline-entry:has(.institution-logos > :nth-child(2)) { min-height: 7.5rem; }
+.institution-mark { display: block; width: 5rem; height: 3.2rem; margin: auto; overflow: hidden; }
+.institution-logos .institution-mark img { width: 100%; height: auto; }
+.institution-logos { position: absolute; left: 0; top: .2rem; width: 5rem; display: grid; gap: .7rem; }
+.institution-logos img { display: block; width: 100%; height: 3.2rem; object-fit: contain; }
+.timeline-entry::before { content: ""; position: absolute; left: 6rem; top: .2rem; bottom: .2rem; width: 4px; border-radius: 4px; background: #ae96d8; }
+.timeline-entry:nth-child(even)::before { background: #588dc8; opacity: .55; }
+.research .timeline-entry::before { background: #4f808c; opacity: .55; }
+.timeline-entry > strong { display: block; }
+.timeline-entry p { margin: .15rem 0 0; }
+#publications-md li::marker, #awards-md li::marker { color: #ae96d8; }
+#publications-md li { margin-bottom: 1.5rem; }
+#publications-md h4 { font-family: var(--heading-font); font-weight: 600; }
+@media (max-width: 575px) {
+    #home-md, #publications-md, #awards-md, #misc-md { padding-left: 0; }
+    #sections .subsection-title { display: flex; align-items: center; gap: .9rem; }
+    .subsection-title svg { position: static; }
+    .timeline-entry { padding-left: 5.4rem; }
+    .timeline-entry::before { left: 4.3rem; }
+    .institution-logos { width: 3.3rem; }
+    .institution-logos img { height: 2.8rem; }
+    .institution-mark { width: 3.3rem; height: 2.1rem; }
+    .profile-links { gap: 1.2rem; }
+}
+::selection {
+    background: #e6f1f6;
+    color: #1f2328;
 }
 
 body {
-    background: #ffffff;
+    background: #1f2328;
+    isolation: isolate;
 }
 
-.header {
-    border-bottom: solid 2px var(--bs-blue);
-    z-index: 10000;
+.site-background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.site-background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(31, 35, 40, var(--top-section-overlay));
 }
 
 .page-skeleton {
     position: fixed;
     top: 25rem;
-    right: 0;
+    right: max(24px, calc((100vw - 1150px) / 2));
     bottom: 0;
-    left: 0;
+    left: max(24px, calc((100vw - 1150px) / 2));
+    border-radius: 24px 24px 0 0;
     z-index: 8000;
     overflow: auto;
     background: #ffffff;
@@ -61,11 +162,11 @@ body {
 }
 
 .skeleton-section-light {
-    background: linear-gradient(45deg, #fcfcfc, #ffffff);
+    background: linear-gradient(45deg, #ffffff, #ffffff);
 }
 
 .skeleton-section-gray {
-    background: linear-gradient(45deg, #f0f0f0, #f1f1f1);
+    background: linear-gradient(45deg, #ebecf0, #f3f4f6);
 }
 
 .skeleton-section-title {
@@ -98,7 +199,12 @@ body {
 }
 
 .bg-bottom {
-    background-color: var(--h-title-color);
+    background: transparent;
+}
+
+.bg-bottom .text-white-50,
+.bg-bottom a {
+    color: rgba(255, 255, 255, 0.85) !important;
 }
 
 .top-section {
@@ -106,17 +212,19 @@ body {
     padding: 10rem 0;
     height: 25rem;
     overflow: hidden;
-    background-color: #18202a;
+    background: transparent;
 }
 
 .site-loading .top-section {
     background:
-        linear-gradient(90deg, rgba(255, 255, 255, 0.12), rgba(231, 235, 240, 0.16)),
-        linear-gradient(135deg, #edf0f3, #f8f9fb);
+        linear-gradient(90deg, rgba(255, 255, 255, 0.12), rgba(230, 232, 232, 0.16)),
+        linear-gradient(135deg, #eaeef2, #f7f8f9);
 }
 
 .top-section h2 {
     font-weight: 400;
+    font-size: clamp(2.4rem, 4.05vw, 3.6rem);
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.25);
 }
 
 .top-section .top-section-content {
@@ -148,15 +256,13 @@ body {
     width: 100%;
     height: 100%;
     z-index: 1;
-    background:
-        linear-gradient(90deg, rgba(0, 0, 0, calc(var(--top-section-overlay) + 0.12)), rgba(0, 0, 0, var(--top-section-overlay))),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.36));
+    background: transparent;
 }
 
 .site-loading .top-section:before {
     background:
-        linear-gradient(90deg, rgba(255, 255, 255, 0.24), rgba(222, 227, 234, 0.2)),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(222, 227, 234, 0.16));
+        linear-gradient(90deg, rgba(255, 255, 255, 0.24), rgba(220, 227, 233, 0.2)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(220, 227, 233, 0.16));
 }
 
 .site-loading .top-section::after {
@@ -170,7 +276,7 @@ body {
 }
 
 section header h2 {
-    font-family: "Kanit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+    font-family: var(--heading-font);
     color: var(--h-title-color);
     font-size: 2.3rem;
     line-height: 4rem;
@@ -178,9 +284,9 @@ section header h2 {
 
 section .main-body {
     font-size: 1.3rem;
-    font-weight: 200;
+    font-weight: var(--body-weight);
     line-height: 2.4rem;
-    text-align: justify;
+    text-align: left;
 }
 
 /* Content column: 80% of the viewport on large screens (10% whitespace
@@ -194,13 +300,35 @@ section .main-body {
 
 
 .bg-gradient-primary-to-secondary-light {
-    background: linear-gradient(45deg, #fcfcfc, #ffffff) !important;
+    background: transparent !important;
 }
 
 .bg-gradient-primary-to-secondary-gray {
-    background: linear-gradient(45deg, #f0f0f0, #f1f1f1) !important;
+    background: transparent !important;
 }
 
+#sections {
+    width: calc(100% - 48px);
+    max-width: 1150px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #d0d7de;
+    border-radius: 24px;
+    box-shadow: 0 24px 80px rgba(31, 35, 40, 0.28);
+}
+
+#sections > section {
+    padding: 3rem 0;
+    scroll-margin-top: 24px;
+}
+
+#sections > section + section {
+    border-top: 1px solid #d0d7de;
+}
+
+#sections .container {
+    max-width: 100%;
+}
 
 
 .on-top {
@@ -229,7 +357,7 @@ section .main-body {
 #avatar {
     position: relative;
     height: 0;
-    top: min(-65px, max(-100px, calc(-1*100vw/12)));
+    top: -170px;
     max-width: 55em;
     margin: 0 1.5rem 0 0;
     float: right;
@@ -239,12 +367,56 @@ section .main-body {
 #avatar img {
     width: min(180px, max(130px, calc(100vw / 6)));
     height: auto;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+    border: 5px solid rgba(255, 255, 255, 0.96);
+    border-radius: 14px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
 }
 
 @media screen and (max-width: 991px) {
     #avatar {
         margin: 0;
+    }
+}
+
+/* Keep longer biographies and paper titles readable on phones. */
+@media (max-width: 575px) {
+    .top-section {
+        padding-top: 8rem;
+    }
+
+    #avatar {
+        top: -150px;
+    }
+
+    #sections {
+        width: calc(100% - 24px);
+        border-radius: 18px;
+    }
+
+    #sections > section {
+        padding: 2.5rem 0;
+    }
+
+    .page-skeleton {
+        left: 12px;
+        right: 12px;
+    }
+
+    .container.px-5 {
+        padding-right: 1.5rem !important;
+        padding-left: 1.5rem !important;
+    }
+
+    section .main-body {
+        font-size: 1.05rem;
+        line-height: 1.85rem;
+        text-align: left;
+        overflow-wrap: break-word;
+    }
+
+    section header h2 {
+        font-size: 1.85rem;
+        line-height: 2.8rem;
     }
 }
 
@@ -261,4 +433,26 @@ section .main-body {
     .skeleton-block::after {
         animation: none;
     }
+}
+
+/* Display the original-color institute emblems from their full source images. */
+.iiis-mark { display: block; width: 3.55rem; height: 3.2rem; margin: auto; overflow: hidden; }
+.institution-logos .iiis-mark img { width: auto; max-width: none; height: 100%; transform: translateX(-.65rem); }
+.nlp-mark { display: block; width: 3.2rem; margin: auto; border-radius: .3rem; overflow: hidden; }
+.institution-logos .nlp-mark img { width: 100%; height: auto; }
+#sections h3, #sections h4, #sections h5, #sections h6 { color: var(--h-title-color); }
+#home-md a { text-decoration: none; }
+#home-md a:hover { color: #42658a; }
+.publication-links { display: inline; margin-left: .4rem; }
+.publication-links a { display: inline-flex; align-items: center; vertical-align: baseline; margin: .1rem .3rem .1rem 0; white-space: nowrap; padding: .12rem .7rem; border: 1px solid #d0d7de; border-radius: 6px; background: #f7f8f9; color: #3d6da6; font-size: .86em; font-weight: 400; line-height: 1.7; text-decoration: none; }
+.publication-links a:hover { background: #e6f1f6; border-color: #3d6da6; }
+.publication-links .news-link { color: #796393; }
+.publication-links .news-link:hover { border-color: #796393; }
+.publication-links .citation-highlight { color: #a44d53; background: #f2dad84d; border-color: #e0a0a166; font-weight: 600; }
+.publication-links .citation-highlight:hover { background: #f2dad8; border-color: #a44d53; }
+.award-highlight { color: #a44d53; font-weight: 600; }
+#sections a:focus-visible { outline: 2px solid #3d6da6; outline-offset: 3px; border-radius: 4px; }
+@media (max-width: 575px) {
+    .iiis-mark { width: 2.7rem; height: 2.4rem; }
+    .institution-logos .iiis-mark img { transform: translateX(-.45rem); }
 }

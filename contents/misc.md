@@ -1,0 +1,1 @@
+In my free time, I enjoy listening to rock music, especially the musical style of [RADWIMPS](https://en.wikipedia.org/wiki/Radwimps). I also enjoy reading; my favorite novel is *[The Smiling, Proud Wanderer](https://en.wikipedia.org/wiki/The_Smiling,_Proud_Wanderer)* (笑傲江湖) by [Jin Yong (Louis Cha)](https://en.wikipedia.org/wiki/Jin_Yong).

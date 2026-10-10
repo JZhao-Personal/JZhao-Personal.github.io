@@ -81,7 +81,6 @@ assert.match(mainCss, /\.page-skeleton\s*\{[\s\S]*top:\s*25rem/, 'section skelet
 assert.match(mainCss, /\.page-skeleton\s*\{[\s\S]*padding-top:\s*2\.4rem/, 'section skeleton placeholders should sit one text line lower');
 assert.match(mainCss, /\.site-loading \.top-section\s*\{[\s\S]*linear-gradient/, 'hero background should keep a loading placeholder');
 assert.match(mainCss, /\.site-loading \.top-section::after\s*\{[\s\S]*animation:\s*skeleton-shimmer/, 'hero background placeholder should shimmer while loading');
-assert.match(index, /id="page-top-title"[^>]*>\s*&nbsp;\s*<\/a>/, 'navbar brand should reserve initial height before config loads');
 assert.match(mainCss, /\.page-skeleton\s*\{[\s\S]*z-index:\s*8000/, 'section skeleton should stay below the avatar layer');
 assert.match(mainCss, /#avatar\s*\{[\s\S]*z-index:\s*9000/, 'avatar should stay above the section skeleton while loading');
 assert.match(mainCss, /\.skeleton-block\s*\{[\s\S]*max-width:\s*100%/, 'skeleton blocks should never overflow their container');
