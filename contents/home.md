@@ -1,4 +1,4 @@
-I work on **large language models**, with a focus on reasoning, test-time scaling, and AI agents. My recent work includes reward modeling, reinforcement learning and LLM agents.
+I work on **large language models**, focusing on LLM reasoning and agentic systems. My recent projects involve reward modeling, reinforcement learning, and scientific discovery.
 
 Currently, I'm a first-year Ph.D. student at [THU-IIIS](https://iiis.tsinghua.edu.cn/en/), home to [the Yao Class](https://iiis.tsinghua.edu.cn/en/Yao_Class/About_Yao_Class.htm). I'm seeking research internship opportunities in industry.
 
