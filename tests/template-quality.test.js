@@ -70,7 +70,7 @@ assert.match(mainCss, /@keyframes\s+skeleton-shimmer/, 'skeleton placeholders sh
 assert.match(mainCss, /animation:\s*skeleton-shimmer/, 'skeleton placeholders should show a moving shimmer while loading');
 assert.match(mainCss, /prefers-reduced-motion:\s*reduce[\s\S]*\.skeleton-block/, 'skeleton animation should respect reduced motion preferences');
 assert.match(scripts, /function\s+markSiteReady/, 'JS should expose a loading completion transition');
-assert.match(scripts, /\.finally\(\(\)\s*=>\s*markSiteReady\(\)\)/, 'site should leave loading state even if content loading fails');
+assert.match(scripts, /\.finally\(\(\)\s*=>\s*\{[^}]*markSiteReady\(\)/, 'site should leave loading state even if content loading fails');
 assert.doesNotMatch(index, /skeleton-nav/, 'navbar should not use skeleton placeholders');
 assert.doesNotMatch(index, /skeleton-hero/, 'hero text should not use skeleton placeholder markup');
 assert.doesNotMatch(index, /skeleton-avatar/, 'avatar should not use skeleton placeholders');

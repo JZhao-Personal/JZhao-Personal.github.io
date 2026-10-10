@@ -213,25 +213,39 @@ function initBackgroundSlideshow(yml) {
     let activeBackground = 0;
     try { window.localStorage.setItem(storageKey, order[0]); } catch (_) { /* Keep random selection without persistence. */ }
 
+    const ready = new Set();
+    const loading = order.map((url, index) => new Promise(resolve => {
+        const image = new Image();
+        image.fetchPriority = index === 0 ? 'high' : 'low';
+        image.onload = async () => {
+            try { if (image.decode) await image.decode(); } catch (_) { /* Loaded image can still be displayed. */ }
+            ready.add(url);
+            resolve();
+        };
+        image.onerror = () => resolve();
+        image.src = url;
+    }));
     layers[activeLayer].style.backgroundImage = `url("${order[activeBackground]}")`;
 
     if (backgrounds.length === 1 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        return;
+        return loading[0];
     }
 
     window.setInterval(() => {
         const nextLayer = activeLayer === 0 ? 1 : 0;
-        activeBackground++;
-        if (activeBackground === order.length) {
+        if (activeBackground + 1 === order.length) {
             order = shuffleBackgrounds(backgrounds, order[order.length - 1]);
-            activeBackground = 0;
+            activeBackground = -1;
         }
+        if (!ready.has(order[activeBackground + 1])) return;
+        activeBackground++;
 
         layers[nextLayer].style.backgroundImage = `url("${order[activeBackground]}")`;
         layers[nextLayer].classList.add('top-section-bg-active');
         layers[activeLayer].classList.remove('top-section-bg-active');
         activeLayer = nextLayer;
     }, Math.max(2500, interval));
+    return loading[0];
 }
 
 function sanitizeMarkdownHtml(html) {
@@ -338,6 +352,7 @@ function loadMarkdownSection(name) {
 function markSiteReady() {
     document.body.classList.remove('site-loading');
     document.body.classList.add('site-ready');
+    document.getElementById('site-loader')?.setAttribute('aria-hidden', 'true');
 }
 
 window.addEventListener('DOMContentLoaded', event => {
@@ -360,6 +375,8 @@ window.addEventListener('DOMContentLoaded', event => {
 
     marked.use({ mangle: false, headerIds: false });
 
+    // Keep the page accessible even if a resource or network request stalls.
+    const loadingTimeout = window.setTimeout(markSiteReady, 8000);
     loadConfig()
         .then((yml) => {
             applyConfig(yml);
@@ -367,14 +384,17 @@ window.addEventListener('DOMContentLoaded', event => {
 
             renderNavigation(getNavigationItems(yml));
             renderSections(sections);
-            initBackgroundSlideshow(yml);
+            const firstBackground = initBackgroundSlideshow(yml);
             activateScrollSpy();
             bindResponsiveNavbar();
 
-            return Promise.all(getConfiguredSections(yml).map(loadMarkdownSection));
+            const fonts = document.fonts
+                ? Promise.all([document.fonts.load('400 16px "LXGW 975 Yuan SC"'), document.fonts.load('700 16px "LXGW 975 Yuan SC"')])
+                : Promise.resolve();
+            return Promise.all([firstBackground, fonts, ...getConfiguredSections(yml).map(loadMarkdownSection)]);
         })
         .then(() => typesetMath())
         .catch(error => console.log(error))
-        .finally(() => markSiteReady());
+        .finally(() => { window.clearTimeout(loadingTimeout); markSiteReady(); });
 
 }); 

@@ -6,11 +6,16 @@ const script = fs.readFileSync(path.resolve(__dirname, '../static/js/scripts.js'
 const photos = ['lake.jpg', 'campus-sunset.jpg', 'city-sunset.jpg'];
 const storage = new Map();
 
-function load(storageDisabled = false) {
+function load(storageDisabled = false, deferred = false) {
+  const images = [];
   let tick;
   const layers = Array.from({ length: 2 }, () => ({ style: {}, classList: { add() {}, remove() {} } }));
   const context = {
     console, Math: Object.create(Math),
+    Image: class {
+      constructor() { images.push(this); }
+      set src(value) { this.url = value; if (!deferred) this.onload(); }
+    },
     window: {
       addEventListener() {}, matchMedia: () => ({ matches: false }),
       setInterval(fn) { tick = fn; },
@@ -24,7 +29,7 @@ function load(storageDisabled = false) {
   };
   vm.createContext(context);
   vm.runInContext(script, context);
-  return { context, layers, tick: () => tick() };
+  return { context, layers, images, tick: () => tick() };
 }
 
 // Every permutation is available on a first visit; prior first images are excluded.
@@ -71,3 +76,28 @@ const blocked = load(true);
 assert.doesNotThrow(() => blocked.context.initBackgroundSlideshow({ backgrounds: photos }));
 assert.ok(blocked.layers[0].style.backgroundImage);
 console.log('background shuffle, persistence, cycle and storage fallback checks passed');
+
+// A slow next image must never replace the already visible background.
+(async () => {
+  const app = load(false, true);
+  const firstReady = app.context.initBackgroundSlideshow({ backgrounds: photos });
+  assert.equal(app.images.length, 3, 'all backgrounds should preload');
+  let resolved = false;
+  firstReady.then(() => { resolved = true; });
+  await Promise.resolve();
+  assert.equal(resolved, false, 'page readiness waits for its first image');
+  await app.images[0].onload();
+  await firstReady;
+  const initial = app.layers[0].style.backgroundImage;
+  app.tick();
+  assert.equal(app.layers[0].style.backgroundImage, initial);
+  assert.equal(app.layers[1].style.backgroundImage, undefined);
+  await app.images[1].onload();
+  app.tick();
+  assert.equal(app.layers[1].style.backgroundImage, `url("${app.images[1].url}")`);
+  const failure = load(false, true);
+  const recovered = failure.context.initBackgroundSlideshow({ backgrounds: photos });
+  failure.images[0].onerror();
+  await recovered;
+  console.log('delayed image readiness and load failure checks passed');
+})().catch(error => { console.error(error); process.exitCode = 1; });

@@ -2,14 +2,14 @@
 
 @font-face {
     font-family: "LXGW 975 Yuan SC";
-    src: local("LXGW 975 Yuan SC"), url("../assets/fonts/LXGW975YuanSC-400W.ttf") format("truetype");
+    src: local("LXGW 975 Yuan SC"), url("../assets/fonts/LXGW975YuanSC-400W.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
     font-family: "LXGW 975 Yuan SC";
-    src: url("../assets/fonts/LXGW975YuanSC-700W.ttf") format("truetype");
+    src: url("../assets/fonts/LXGW975YuanSC-700W.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -456,3 +456,13 @@ section .main-body {
     .iiis-mark { width: 2.7rem; height: 2.4rem; }
     .institution-logos .iiis-mark img { transform: translateX(-.45rem); }
 }
+
+/* Small full-screen introduction while the first background and text are prepared. */
+#site-loader { position: fixed; inset: 0; z-index: 20000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; background: #f7f8f9; color: #453662; font: 500 1.15rem var(--heading-font); transition: opacity .35s ease, visibility .35s; }
+#site-loader small { color: #656d76; font-size: .75rem; letter-spacing: .12em; }
+.loader-ring { width: 2rem; height: 2rem; border: 2px solid #e6e8e8; border-top-color: #8d74bb; border-radius: 50%; animation: loader-spin 1s linear infinite; }
+.site-loading { overflow: hidden; }
+.site-loading #page-skeleton { display: none; }
+.site-ready #site-loader { opacity: 0; visibility: hidden; pointer-events: none; }
+@keyframes loader-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .loader-ring { animation: none; } #site-loader { transition: none; } }
